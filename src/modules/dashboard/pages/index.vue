@@ -18,7 +18,7 @@ const addCommand = (command: string) => {
     if (command === "On") {
       isActive.value = true;
     }
-    comands.value.push(command);
+    comands.value = [command, ...comands.value];
   }
 };
 </script>
