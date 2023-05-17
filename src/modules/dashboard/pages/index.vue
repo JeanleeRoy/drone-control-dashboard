@@ -14,9 +14,12 @@ const addCommand = (command: string) => {
   if (command === "Off") {
     comands.value = [];
     isActive.value = false;
-  } else if (command === "On") {
-    isActive.value = true;
-  } else comands.value.push(command);
+  } else {
+    if (command === "On") {
+      isActive.value = true;
+    }
+    comands.value.push(command);
+  }
 };
 </script>
 
@@ -34,7 +37,7 @@ const addCommand = (command: string) => {
         <DashboardBlock>
           <p class="text-gray-400 pb-3">Comandos enviados al Drone</p>
           <div
-            v-if="comands.length > 0"
+            v-if="isActive"
             class="flex flex-col-reverse h-full max-h-[380px] overflow-y-auto text-gray-400 gap-y-1s"
           >
             <p v-for="cmd in comands" class="border-b border-gray-800 py-2">
@@ -43,7 +46,7 @@ const addCommand = (command: string) => {
           </div>
           <div v-else class="grid place-items-center text-gray-500 h-[380px]">
             <DroneImage class="w-full h-fit px-7" />
-            <p>No hay comandos</p>
+            <p>Sin comandos</p>
           </div>
         </DashboardBlock>
         <DashboardBlock>

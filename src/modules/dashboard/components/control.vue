@@ -20,19 +20,39 @@ const handleCommand = (command: string) => {
 
 <template>
   <div id="remote-control">
-    <button class="button top" @click="handleCommand('Up')" href="#">
+    <button
+      class="button top"
+      :class="{ 'cursor-default': !active }"
+      @click="handleCommand('Up')"
+    >
       <i class="icon-play">Up</i>
     </button>
-    <button class="button right" @click="handleCommand('Right')" href="#">
+    <button
+      class="button right"
+      :class="{ 'cursor-default': !active }"
+      @click="handleCommand('Right')"
+    >
       <i class="icon-forward">Right</i>
     </button>
-    <button class="button left" @click="handleCommand('Left')" href="#">
+    <button
+      class="button left"
+      :class="{ 'cursor-default': !active }"
+      @click="handleCommand('Left')"
+    >
       <i class="icon-backward">Left</i>
     </button>
-    <button class="button bottom" @click="handleCommand('Down')" href="#">
+    <button
+      class="button bottom"
+      :class="{ 'cursor-default': !active }"
+      @click="handleCommand('Down')"
+    >
       <i class="icon-pause">Down</i>
     </button>
-    <button class="center-button" :class="active ? 'bg-black' : 'bg-red-900'" @click="hadleActiveState" href="#">
+    <button
+      class="center-button"
+      :class="active ? 'bg-black' : 'bg-red-900'"
+      @click="hadleActiveState"
+    >
       <i class="icon-stop">{{ nextState }}</i>
     </button>
   </div>
@@ -100,7 +120,12 @@ const handleCommand = (command: string) => {
     #000 35%,
     #eee 75%
   );
-  background: radial-gradient(bottom right, ellipse farthest-corner, #000 35%, #eee 75%);
+  background: radial-gradient(
+    bottom right,
+    ellipse farthest-corner,
+    #000 35%,
+    #eee 75%
+  );
 }
 
 #remote-control .button.top::after {
@@ -134,7 +159,12 @@ const handleCommand = (command: string) => {
     #000 35%,
     #eee 75%
   );
-  background: radial-gradient(top right, ellipse farthest-corner, #000 35%, #eee 75%);
+  background: radial-gradient(
+    top right,
+    ellipse farthest-corner,
+    #000 35%,
+    #eee 75%
+  );
 }
 
 #remote-control .button.left::after {
@@ -154,7 +184,12 @@ const handleCommand = (command: string) => {
     #000 35%,
     #eee 75%
   );
-  background: radial-gradient(top left, ellipse farthest-corner, #000 35%, #eee 75%);
+  background: radial-gradient(
+    top left,
+    ellipse farthest-corner,
+    #000 35%,
+    #eee 75%
+  );
 }
 
 #remote-control .button.bottom::after {
