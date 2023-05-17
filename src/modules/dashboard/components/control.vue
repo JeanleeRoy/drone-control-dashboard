@@ -32,7 +32,7 @@ const handleCommand = (command: string) => {
     <button class="button bottom" @click="handleCommand('Down')" href="#">
       <i class="icon-pause">Down</i>
     </button>
-    <button class="center-button" @click="hadleActiveState" href="#">
+    <button class="center-button" :class="active ? 'bg-black' : 'bg-red-900'" @click="hadleActiveState" href="#">
       <i class="icon-stop">{{ nextState }}</i>
     </button>
   </div>
@@ -64,7 +64,6 @@ const handleCommand = (command: string) => {
   position: absolute;
   top: 31%;
   left: 31%;
-  background: #000;
   border-radius: 50%;
   box-shadow: 1px 0 4px rgba(0, 0, 0, 0.8);
 }
@@ -97,11 +96,11 @@ const handleCommand = (command: string) => {
   border-radius: 100% 0 0 0;
   background: -webkit-radial-gradient(
     bottom right,
-    ellipse cover,
+    ellipse farthest-corner,
     #000 35%,
     #eee 75%
   );
-  background: radial-gradient(bottom right, ellipse cover, #000 35%, #eee 75%);
+  background: radial-gradient(bottom right, ellipse farthest-corner, #000 35%, #eee 75%);
 }
 
 #remote-control .button.top::after {
@@ -131,11 +130,11 @@ const handleCommand = (command: string) => {
   border-radius: 0 0 0 100%;
   background: -webkit-radial-gradient(
     top right,
-    ellipse cover,
+    ellipse farthest-corner,
     #000 35%,
     #eee 75%
   );
-  background: radial-gradient(top right, ellipse cover, #000 35%, #eee 75%);
+  background: radial-gradient(top right, ellipse farthest-corner, #000 35%, #eee 75%);
 }
 
 #remote-control .button.left::after {
@@ -151,11 +150,11 @@ const handleCommand = (command: string) => {
   border-radius: 0 0 100% 0;
   background: -webkit-radial-gradient(
     top left,
-    ellipse cover,
+    ellipse farthest-corner,
     #000 35%,
     #eee 75%
   );
-  background: radial-gradient(top left, ellipse cover, #000 35%, #eee 75%);
+  background: radial-gradient(top left, ellipse farthest-corner, #000 35%, #eee 75%);
 }
 
 #remote-control .button.bottom::after {
@@ -173,11 +172,17 @@ i {
   -moz-transform: rotate(-45deg);
   transform: rotate(-45deg) translateX(-50%) translateY(-50%);
   position: absolute;
-  font-size: 22px;
+  font-size: 15px;
   top: 50%;
   left: 50%;
   color: rgb(186, 186, 186);
   font-style: normal;
+}
+
+@media (min-width: 475px) {
+  i {
+    font-size: 22px;
+  }
 }
 
 .top i {

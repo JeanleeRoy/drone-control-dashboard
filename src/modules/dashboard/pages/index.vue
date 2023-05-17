@@ -27,7 +27,7 @@ const addCommand = (command: string) => {
         <p class="text-gray-400 py-3">Bienvenido al panel de control</p>
       </div>
 
-      <div class="grid grid-cols-[3fr_1fr] gap-5">
+      <div class="grid md:grid-cols-[3fr_1fr] gap-5">
         <DashboardBlock>
           <Control @command="addCommand" />
         </DashboardBlock>

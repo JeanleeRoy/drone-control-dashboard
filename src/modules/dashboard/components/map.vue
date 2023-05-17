@@ -12,7 +12,7 @@ onMounted(() => {
   const map = new mapboxgl.Map({
     container: mapContainer.value!,
     style: "mapbox://styles/mapbox/navigation-night-v1", // style URL
-    center: [-77.02, -12.12], // starting position [lng, lat]
+    center: [-77.02, -12.13], // starting position [lng, lat]
     zoom: 12, // starting zoom
   });
   map.on("styñe.load", () => {
