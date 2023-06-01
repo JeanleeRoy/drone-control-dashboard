@@ -16,4 +16,4 @@ export interface User {
   role: string;
 }
 
-export type AuthPayload = User;
+export type AuthPayload = User & { exp: number };

@@ -10,6 +10,9 @@ export const routes: Array<RouteRecordRaw> = [
         path: "",
         name: "dashboard.index",
         component: () => import("../pages/index.vue"),
+        meta: {
+          requiresAuth: true,
+        },
       },
     ],
   },

@@ -17,10 +17,13 @@ export const useLogin = () => {
     mutationFn: authLogin,
     onSuccess: (res) => {
       authStore.setToken(res.data.token);
-      const user = decodeJwtToken<AuthPayload>(res.data.token);
-      authStore.setUser(user as User);
+      const payload = decodeJwtToken<AuthPayload>(res.data.token);
+      authStore.setExpires(payload.exp);
+      authStore.setUser(payload as User);
       router.push({ name: "dashboard.index" }).then(() => {
-        alert.success("Bienvenido");
+        alert.success("Bienvenido", {
+          duration: 3000,
+        });
       });
     },
     onError: (error: Error) => {
