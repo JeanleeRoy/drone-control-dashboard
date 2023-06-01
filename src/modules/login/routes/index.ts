@@ -1,14 +1,14 @@
 import { RouteRecordRaw } from "vue-router";
-import deafult from "~/layouts/default.vue";
+import simple from "~/layouts/simple.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
-    path: "/dashboard",
-    component: deafult,
+    path: "/",
+    component: simple,
     children: [
       {
         path: "",
-        name: "dashboard.index",
+        name: "login.index",
         component: () => import("../pages/index.vue"),
       },
     ],
