@@ -50,7 +50,7 @@ const handleCommand = (command: string) => {
     </button>
     <button
       class="center-button"
-      :class="active ? 'bg-black' : 'bg-red-900'"
+      :class="active ? '!bg-neutral-900' : '!bg-red-900'"
       @click="hadleActiveState"
     >
       <i class="icon-stop">{{ nextState }}</i>
