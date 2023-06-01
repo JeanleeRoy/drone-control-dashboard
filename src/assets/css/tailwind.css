@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*  Using the naive-ui color scheme */
+
+button {
+  background-color: var(--n-color) !important;
+}
