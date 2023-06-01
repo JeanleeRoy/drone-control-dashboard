@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { toTypedSchema } from "@vee-validate/zod";
 import { useField, useForm } from "vee-validate";
-import { useRouter } from "vue-router";
+import { useLogin } from "../composables/useLogin";
 import { z } from "zod";
 
-const router = useRouter();
+const { login } = useLogin();
 
-const { handleSubmit } = useForm({
+const { handleSubmit, isSubmitting } = useForm({
   validateOnMount: false,
   initialValues: {
     email: "",
@@ -39,8 +39,8 @@ const {
   errorMessage: passwordError,
 } = useField<string>("password");
 
-const onSubmit = handleSubmit(async () => {
-  router.push({ name: "dashboard.index" });
+const onSubmit = handleSubmit(async ({ email, password }) => {
+  login({ email, password }).catch(() => {});
 });
 </script>
 
@@ -85,10 +85,11 @@ const onSubmit = handleSubmit(async () => {
 
             <n-button
               attr-type="submit"
-              round
-              block
-              size="medium"
               type="success"
+              size="medium"
+              :loading="isSubmitting"
+              block
+              round
             >
               Iniciar sesión
             </n-button>
