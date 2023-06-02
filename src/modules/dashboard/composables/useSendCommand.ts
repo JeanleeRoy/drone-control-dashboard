@@ -12,7 +12,7 @@ export const useSendCommand = () => {
   const sendCommandFn = async (payload: SendCommandProps) => {
     return sendNewDroneCommand({
       command: `${payload.command} ${payload.intensity}`,
-      test: true,
+      test: false,
     });
   };
 
