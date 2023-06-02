@@ -5,52 +5,70 @@ import DashboardBlock from "../components/dashboard-block.vue";
 import DroneImage from "../image/drone-image.vue";
 import IntensitySlider from "../components/intensitySlider.vue";
 import Map from "../components/map.vue";
-import { DroneCommand } from "../types/Index";
-import { ref } from "vue";
+import { DroneCommand, PanelCommand } from "../types/Index";
 import { useSendCommand } from "../composables/useSendCommand";
+import { useDroneCommand } from "../composables/useDronCommand";
+import { getTime } from '~/shared/utils/date';
+import { ref } from "vue";
 
-const { sendDroneCommand } = useSendCommand();
-
-const comands = ref<DroneCommand[]>([]);
-const intensity = ref(4);
+const comands = ref<PanelCommand[]>([]);
+const intensity1 = ref(2);
+const intensity2 = ref(2);
 
 const isActive = ref(false);
 
-const getTime = (date: string) => {
-  const time = date.split("T")[1];
-  return time.split(".")[0];
-};
+const droneCommand = ref<DroneCommand>({
+  leftRight: 5,
+  frontBack: 5,
+  upDown: 1,
+});
 
-const handleSendCommand = (cmd: DroneCommand) => {
+const { addChanelIntensity, getStringCommand, resetCommand } =
+  useDroneCommand(droneCommand);
+
+const { sendDroneCommand } = useSendCommand();
+
+const handleSendCommand = (cmd: PanelCommand) => {
   if (!isActive.value) return;
 
-  sendDroneCommand({
-    command: cmd.command,
-    intensity: cmd.intensity!,
-  }).then(() => {
-    comands.value = comands.value.map((c) => {
-      if (c.id === cmd.id) {
-        c.receivedAt = new Date().toISOString();
-      }
-      return c;
-    });
-  });
+  addChanelIntensity(cmd.command, cmd.intensity);
+  const simpleCmd = getStringCommand();
+
+  sendDroneCommand(simpleCmd)
+    .then(() => {
+      comands.value = comands.value.map((c) => {
+        if (c.id === cmd.id) {
+          c.receivedAt = new Date().toISOString();
+        }
+        return c;
+      });
+    })
+    .catch(() => {});
+};
+
+const resetState = () => {
+  resetCommand();
+  comands.value = [];
+  intensity1.value = 2;
+  intensity2.value = 2;
+  isActive.value = false;
 };
 
 const addCommand = (cmd: string) => {
   if (cmd === "Off") {
-    comands.value = [];
-    isActive.value = false;
+    resetState();
   } else {
     if (cmd === "On") {
       isActive.value = true;
       return;
     }
 
-    const command: DroneCommand = {
+    const isElevation = cmd === "Up" || cmd === "Down";
+    const intensity = isElevation ? intensity2.value : intensity1.value;
+    const command: PanelCommand = {
       id: Date.now().toString(),
       command: cmd,
-      intensity: intensity.value,
+      intensity: intensity || 1,
     };
 
     comands.value = [command, ...comands.value];
@@ -72,7 +90,7 @@ const addCommand = (cmd: string) => {
         <DashboardBlock>
           <div class="flex flex-col md:flex-row">
             <Control @command="addCommand" />
-            <IntensitySlider v-model="intensity" :disabled="!isActive" />
+            <IntensitySlider v-model="intensity1" :disabled="!isActive" />
           </div>
         </DashboardBlock>
         <DashboardBlock>

@@ -23,9 +23,9 @@ const handleCommand = (command: string) => {
     <button
       class="button top"
       :class="{ 'cursor-default': !active }"
-      @click="handleCommand('Up')"
+      @click="handleCommand('Front')"
     >
-      <i class="icon-play">Up</i>
+      <i class="icon-play">Front</i>
     </button>
     <button
       class="button right"
@@ -44,9 +44,9 @@ const handleCommand = (command: string) => {
     <button
       class="button bottom"
       :class="{ 'cursor-default': !active }"
-      @click="handleCommand('Down')"
+      @click="handleCommand('Back')"
     >
-      <i class="icon-pause">Down</i>
+      <i class="icon-pause">Back</i>
     </button>
     <button
       class="center-button"
@@ -221,7 +221,8 @@ i {
 }
 
 .top i {
-  top: 40%;
+  top: 34%;
+  left: 50%;
 }
 
 .left i {

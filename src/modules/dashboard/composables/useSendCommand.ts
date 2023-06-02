@@ -2,17 +2,12 @@ import { useMutation } from "@tanstack/vue-query";
 import { sendNewDroneCommand } from "../services";
 import { useMessage } from "naive-ui";
 
-interface SendCommandProps {
-  command: string;
-  intensity: number;
-}
-
 export const useSendCommand = () => {
   const alert = useMessage();
-  const sendCommandFn = async (payload: SendCommandProps) => {
+  const sendCommandFn = async (simpleCommand: string) => {
     return sendNewDroneCommand({
-      command: `${payload.command} ${payload.intensity}`,
-      test: false,
+      command: simpleCommand,
+      test: true,
     });
   };
 
