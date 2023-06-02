@@ -22,7 +22,7 @@ const isMdScreen = useMediaQuery("(min-width: 768px)");
 <template>
   <div :class="'my-control-slider'">
     <div class="flex flex-col items-center gap-3 md:h-[420px] md:max-w-[120px]">
-      <h3 class=" font-medium text-base w-full md:text-center md:text-lg"
+      <h3 class=" font-medium text-base w-full md:text-center"
       :class="disabled ? 'text-gray-500' : 'text-gray-400'">
         Intensidad
       </h3>

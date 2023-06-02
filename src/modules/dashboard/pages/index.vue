@@ -51,15 +51,15 @@ const addCommand = (cmd: string) => {
           <p class="text-gray-400 pb-3">Comandos enviados al Drone</p>
           <div
             v-if="isActive"
-            class="flex flex-col-reverse h-full max-h-[380px] overflow-y-auto text-gray-400 gap-y-1s"
+            class="flex flex-col-reverse h-[260px] md:h-full md:max-h-[380px] overflow-y-auto text-gray-400 gap-y-1s"
           >
             <p v-for="cmd in comands" class="border-b border-gray-800 py-2">
               {{ cmd.command }}
-              <span v-if="cmd.intensity">- {{ cmd.intensity }}</span>
+              <span v-if="cmd.intensity"> • {{ cmd.intensity }}</span>
             </p>
           </div>
-          <div v-else class="grid place-items-center text-gray-500 h-[380px]">
-            <DroneImage class="w-full h-fit px-7" />
+          <div v-else class="grid place-items-center text-gray-500 md:h-[380px]">
+            <DroneImage class="h-[240px] w-full md:h-fit px-7" />
             <p>Sin comandos</p>
           </div>
         </DashboardBlock>
