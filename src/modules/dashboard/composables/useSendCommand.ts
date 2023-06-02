@@ -7,7 +7,7 @@ export const useSendCommand = () => {
   const sendCommandFn = async (simpleCommand: string) => {
     return sendNewDroneCommand({
       command: simpleCommand,
-      test: true,
+      test: false,
     });
   };
 

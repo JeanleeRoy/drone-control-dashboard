@@ -5,10 +5,16 @@ const props = withDefaults(
   defineProps<{
     modelValue: number | undefined;
     disabled: boolean;
+    title: string;
+    min: number;
+    max: number;
   }>(),
   {
-    modelValue: 4,
+    modelValue: 2,
     disabled: true,
+    title: "Intensidad",
+    min: 1,
+    max: 4,
   }
 );
 
@@ -22,24 +28,27 @@ const isMdScreen = useMediaQuery("(min-width: 768px)");
 <template>
   <div :class="'my-control-slider'">
     <div class="flex flex-col items-center gap-3 md:h-[420px] md:max-w-[120px]">
-      <h3 class=" font-medium text-base w-full md:text-center"
-      :class="disabled ? 'text-gray-500' : 'text-gray-400'">
-        Intensidad
+      <h3
+        class="font-medium text-base w-full md:text-center"
+        :class="disabled ? 'text-gray-500' : 'text-gray-400'"
+      >
+        {{ title }}
       </h3>
       <n-slider
         v-model:value="intensity"
         class="!md:width-full"
         :disabled="disabled"
-        :min="1"
-        :max="9"
+        :min="min"
+        :max="max"
         :step="1"
         :vertical="isMdScreen"
       />
       <n-input-number
         v-model:value="intensity"
         :disabled="disabled"
-        :min="1"
-        :max="9"
+        :min="min"
+        :max="max"
+        placeholder="1"
         size="small"
       />
     </div>
