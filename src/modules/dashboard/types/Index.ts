@@ -10,3 +10,17 @@ export interface DroneCommand {
   frontBack: number;
   upDown: number;
 }
+
+export interface ControlButton {
+  label: string;
+  command: string;
+  color?: string;
+}
+
+export interface Controls {
+  left?: ControlButton;
+  right?: ControlButton;
+  top?: ControlButton;
+  down?: ControlButton;
+  center?: ControlButton;
+}

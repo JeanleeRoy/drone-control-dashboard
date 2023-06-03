@@ -1,60 +1,76 @@
 <script lang="ts" setup>
-import { computed } from "vue";
-import { ref } from "vue";
+import { Controls } from "../types/Index";
 
-const emit = defineEmits(["command"]);
+const props = defineProps<{
+  active: boolean;
+  controls: Controls;
+}>();
 
-const active = ref(false);
+const emit = defineEmits(["update:modelValue", "command"]);
 
-const nextState = computed(() => (!active.value ? "On" : "Off"));
+// const active = useVModel(props, "active", emit);
 
-const hadleActiveState = () => {
+// const nextState = computed(() => (!active.value ? "On" : "Off"));
+
+/*const hadleActiveState = () => {
   active.value = !active.value;
   emit("command", active.value ? "On" : "Off");
-};
+};*/
 
 const handleCommand = (command: string) => {
-  if (active.value) emit("command", command);
+  if (props.active) emit("command", command);
 };
 </script>
 
 <template>
-  <div id="remote-control">
+  <div id="remote-control" :class="!active && 'opacity-60'">
     <button
       class="button top"
-      :class="{ 'cursor-default': !active }"
-      @click="handleCommand('Front')"
+      :class="{ 'cursor-default': !active || !controls.top }"
+      @click="controls.top && handleCommand(controls.top.command)"
     >
-      <i class="icon-play">Front</i>
+      <i v-if="controls.top" class="icon-play">
+        {{ controls.top.label }}
+      </i>
     </button>
     <button
       class="button right"
-      :class="{ 'cursor-default': !active }"
-      @click="handleCommand('Right')"
+      :class="{ 'cursor-default': !active || !controls.right }"
+      @click="controls.right && handleCommand(controls.right.command)"
     >
-      <i class="icon-forward">Right</i>
+      <i v-if="controls.right" class="icon-forward">
+        {{ controls.right.label }}
+      </i>
     </button>
     <button
       class="button left"
-      :class="{ 'cursor-default': !active }"
-      @click="handleCommand('Left')"
+      :class="{ 'cursor-default': !active || !controls.left }"
+      @click="controls.left && handleCommand(controls.left.command)"
     >
-      <i class="icon-backward">Left</i>
+      <i v-if="controls.left" class="icon-backward">
+        {{ controls.left.label }}
+      </i>
     </button>
     <button
       class="button bottom"
-      :class="{ 'cursor-default': !active }"
-      @click="handleCommand('Back')"
+      :class="{ 'cursor-default': !active || !controls.down }"
+      @click="controls.down && handleCommand(controls.down.command)"
     >
-      <i class="icon-pause">Back</i>
+      <i v-if="controls.down" class="icon-pause">
+        {{ controls.down.label }}
+      </i>
     </button>
-    <button
+    <!-- <button
       class="center-button"
       :class="active ? '!bg-neutral-900' : '!bg-red-900'"
       @click="hadleActiveState"
     >
       <i class="icon-stop">{{ nextState }}</i>
-    </button>
+    </button> -->
+    <button
+      class="center-button cursor-auto !bg-[#1c1c1e]"
+      style="box-shadow: inset 0 1px 6px 12px #000"
+    ></button>
   </div>
 </template>
 
@@ -75,6 +91,7 @@ const handleCommand = (command: string) => {
   box-sizing: border-box;
   position: relative;
   margin: 10px auto;
+  transition: opacity 0.2s ease;
 }
 
 #remote-control .center-button {
@@ -210,7 +227,7 @@ i {
   font-size: 15px;
   top: 50%;
   left: 50%;
-  color: rgb(186, 186, 186);
+  color: #bababa;
   font-style: normal;
 }
 

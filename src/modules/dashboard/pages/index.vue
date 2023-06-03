@@ -6,9 +6,13 @@ import DashboardBlock from "../components/dashboard-block.vue";
 import IntensitySlider from "../components/intensitySlider.vue";
 import Map from "../components/map.vue";
 import { DroneCommand, PanelCommand } from "../types/Index";
+import { Icon } from "@vicons/utils";
+import { Power24Filled } from "@vicons/fluent";
 import { useSendCommand } from "../composables/useSendCommand";
 import { useDroneCommand } from "../composables/useDronCommand";
 import { ref } from "vue";
+import { useControls } from "../composables/useControls";
+import { useElementSize } from "@vueuse/core";
 
 const comands = ref<PanelCommand[]>([]);
 const intensity1 = ref(2);
@@ -22,7 +26,9 @@ const droneCommand = ref<DroneCommand>({
   upDown: 1,
 });
 
-const { addChanelIntensity, getStringCommand, resetCommand } =
+const { controls1, controls2 } = useControls();
+
+const { addChanelIntensity, getSerialCommand, resetCommand } =
   useDroneCommand(droneCommand);
 
 const { sendDroneCommand } = useSendCommand();
@@ -31,9 +37,9 @@ const handleSendCommand = (cmd: PanelCommand) => {
   if (!isActive.value) return;
 
   addChanelIntensity(cmd.command, cmd.intensity);
-  const simpleCmd = getStringCommand();
+  const serialCmd = getSerialCommand();
 
-  sendDroneCommand(simpleCmd)
+  sendDroneCommand(serialCmd)
     .then(() => {
       comands.value = comands.value.map((c) => {
         if (c.id === cmd.id) {
@@ -74,6 +80,9 @@ const addCommand = (cmd: string) => {
     handleSendCommand(command);
   }
 };
+
+const containerlRef = ref<HTMLElement | undefined>();
+const { height: listHeight } = useElementSize(containerlRef);
 </script>
 
 <template>
@@ -86,14 +95,51 @@ const addCommand = (cmd: string) => {
       </div>
 
       <div class="grid md:grid-cols-[3fr_1fr] gap-5">
-        <DashboardBlock>
-          <div class="flex flex-col md:flex-row">
-            <Control @command="addCommand" />
-            <IntensitySlider v-model="intensity1" :disabled="!isActive" />
+        <DashboardBlock class="h-fit" ref="containerlRef">
+          <div
+            class="w-full flex justify-end items-center pt-2 pr-2 top-0 left-0 md:pt-3 md:pr-3"
+          >
+            <p class="mr-3 text-[#c6c6c6]">
+              {{ isActive ? "Conectado" : "Inactivo" }}
+            </p>
+            <button
+              class="pt-1 h-10 w-10 rounded-full"
+              :class="
+                isActive ? '!bg-red-700 text-white' : '!bg-red-900 text-red-300'
+              "
+              :style="{ boxShadow: '0 0 10px 5px #000' }"
+              @click="addCommand(isActive ? 'Off' : 'On')"
+            >
+              <Icon size="22px">
+                <Power24Filled />
+              </Icon>
+            </button>
+          </div>
+          <div class="w-full grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-3">
+            <div class="flex flex-col items-center">
+              <Control
+                :controls="controls1"
+                :active="isActive"
+                @command="addCommand"
+              />
+              <IntensitySlider v-model="intensity1" :disabled="!isActive" />
+            </div>
+            <div class="flex flex-col items-center">
+              <Control
+                :controls="controls2"
+                :active="isActive"
+                @command="addCommand"
+              />
+              <IntensitySlider v-model="intensity2" :disabled="!isActive" />
+            </div>
           </div>
         </DashboardBlock>
         <DashboardBlock>
-          <CommandList :isActive="isActive" :comands="comands" />
+          <CommandList
+            :isActive="isActive"
+            :comands="comands"
+            :listHeight="listHeight"
+          />
         </DashboardBlock>
         <DashboardBlock>
           <Map />

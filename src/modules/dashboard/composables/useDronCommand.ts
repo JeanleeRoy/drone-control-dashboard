@@ -2,12 +2,12 @@ import { Ref } from "vue";
 import { DroneCommand } from "../types/Index";
 
 export const useDroneCommand = (command: Ref<DroneCommand>) => {
-  const getStringCommand = () => {
+  const getSerialCommand = () => {
     return `1${command.value.leftRight}2${command.value.upDown}3${command.value.frontBack}`;
   };
 
   const addChanelIntensity = (cmd: string, intensity: number) => {
-    const isUpperBound = cmd === "Up" || cmd === "Right" || cmd === "front";
+    const isUpperBound = cmd === "Up" || cmd === "Right" || cmd === "Front";
     const baseIntensity = isUpperBound ? intensity + 5 : intensity;
 
     if (cmd === "Up" || cmd === "Down") {
@@ -35,7 +35,7 @@ export const useDroneCommand = (command: Ref<DroneCommand>) => {
   };
 
   return {
-    getStringCommand,
+    getSerialCommand,
     addChanelIntensity,
     resetCommand,
   };

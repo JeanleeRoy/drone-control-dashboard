@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useMediaQuery, useVModel } from "@vueuse/core";
+import { useVModel } from "@vueuse/core";
 
 const props = withDefaults(
   defineProps<{
@@ -8,6 +8,7 @@ const props = withDefaults(
     title: string;
     min: number;
     max: number;
+    vertical: boolean;
   }>(),
   {
     modelValue: 2,
@@ -15,19 +16,18 @@ const props = withDefaults(
     title: "Intensidad",
     min: 1,
     max: 4,
+    vertical: false,
   }
 );
 
 const emit = defineEmits(["update:modelValue"]);
 
 const intensity = useVModel(props, "modelValue", emit);
-
-const isMdScreen = useMediaQuery("(min-width: 768px)");
 </script>
 
 <template>
   <div :class="'my-control-slider'">
-    <div class="flex flex-col items-center gap-3 md:h-[420px] md:max-w-[120px]">
+    <div class="flex flex-col items-center gap-3 md:max-w-[300px]">
       <h3
         class="font-medium text-base w-full md:text-center"
         :class="disabled ? 'text-gray-500' : 'text-gray-400'"
@@ -41,7 +41,7 @@ const isMdScreen = useMediaQuery("(min-width: 768px)");
         :min="min"
         :max="max"
         :step="1"
-        :vertical="isMdScreen"
+        :vertical="vertical"
       />
       <n-input-number
         v-model:value="intensity"
@@ -58,10 +58,5 @@ const isMdScreen = useMediaQuery("(min-width: 768px)");
 <style>
 .my-control-slider .n-slider.n-slider--vertical {
   width: 100% !important;
-}
-@media (min-width: 768px) {
-  .my-control-slider .n-slider.n-slider--vertical {
-    max-width: 60px !important;
-  }
 }
 </style>
