@@ -1,7 +1,7 @@
 const local = false;
 export const API_URL = local
   ? "http://127.0.0.1:3001/"
-  : "https://drone-control-api.up.railway.app/";
+  : "https://drone-control-api.onrender.com/";
 
 export const enum AUTH {
   LOGIN = "user/login",
